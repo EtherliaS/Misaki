@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Misaki": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
