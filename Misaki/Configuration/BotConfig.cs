@@ -17,19 +17,20 @@ namespace Misaki.Configuration
          * may be extended
          * also may be deprecated
          */
+        private string s_token;
         public string token 
         {
-            get => token;
+            get => s_token;
             set
             {
-                if (String.IsNullOrEmpty(value: value) || value.Length != 70)
+                if (value.Length != 70)
                 {
                     throw new ArgumentException("Token Length must be 70 characters!");
                 }
-                token = value;
+                s_token = value;
             }
         }
-        public BotConfig(string _token) { token = _token; }
+        public BotConfig(string _token) { s_token = _token; }
         public BotConfig() { }
 
     }

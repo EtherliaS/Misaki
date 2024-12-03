@@ -67,7 +67,7 @@ namespace Misaki.Python
             return null;
 
         }
-        public static string? Execute(string[] command, string args = "", bool UseVenv = true, bool redirectoutput = true, bool redirectinput = true, bool redirecterror = true)
+        public static string? Execute(string[] command, string args = "", bool UseVenv = true, bool redirectoutput = true, bool redirectinput = true, bool redirecterror = true, bool echo = false)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -89,6 +89,7 @@ namespace Misaki.Python
             using var sw = process.StandardInput;
             if (sw.BaseStream.CanWrite)
             {
+                if (!echo) sw.WriteLine("@echo off");
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     sw.WriteLine(activateVenvWin);
@@ -99,6 +100,7 @@ namespace Misaki.Python
                 }
                 foreach (var cmd in command)
                 {
+
                     sw.WriteLine(cmd);
                 }
                 sw.Flush();

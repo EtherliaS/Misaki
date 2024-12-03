@@ -32,8 +32,16 @@ namespace Misaki.App
             if (!Directory.Exists(LocalVars.ConfigDirectoryPath)) Directory.CreateDirectory(LocalVars.ConfigDirectoryPath);
             if (!File.Exists(LocalVars.AppConfigPath))
             {
-                _appconfig = new AppConfig(false, true, new AppVersion(1, 0, 0, 'a')); // get version from server?
-                await JsonConverter.WriteJsonToFileAsync(_appconfig, LocalVars.AppConfigPath);
+                try
+                {
+                    _appconfig = new AppConfig(false, true, new AppVersion(1, 0, 0, 'a')); // get version from server?
+                    await JsonConverter.WriteJsonToFileAsync(_appconfig, LocalVars.AppConfigPath);
+                }
+                catch (Exception ex) // replicate on other files
+                {
+                    await Logger.Log("Error creating appconfig", InfoSource.Misaki, InfoType.Error);
+                    await Logger.Log(ex.Message, InfoSource.Error, InfoType.Error);
+                }
             }
             else _appconfig = await JsonConverter.ReadJsonFileAsync<AppConfig>(LocalVars.AppConfigPath);
 

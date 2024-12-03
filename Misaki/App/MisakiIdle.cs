@@ -30,8 +30,8 @@ namespace Misaki.App
             await Logger.Log("Starting bot...", InfoSource.Misaki);
             //await MisakiBot.Start();
             //some test code
-            string? a = ScriptsManager.GetDownloadLink("dQw4w9WgXcQ");
-            Console.WriteLine(a);
+            //string? a = ScriptsManager.GetDownloadLink("zcwRUFX8Qt0");
+            //Console.WriteLine(a);
         }
     }
 }

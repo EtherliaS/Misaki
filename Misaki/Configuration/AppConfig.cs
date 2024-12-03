@@ -17,7 +17,7 @@ namespace Misaki.Configuration
     {
         public bool DebugInfo { get; set; }
         public bool SongDownloadInfo { get; set; }
-        public AppVersion Appversion { get; }
+        public AppVersion Appversion = AppVersion.Parse("0.0.2d");
         public AppConfig(bool debug, bool downloadinfo, AppVersion version)
         {
             DebugInfo = false;
