@@ -13,12 +13,14 @@ namespace Misaki.Configuration
         Warn,
         Error
     } // means nothing now, a placeholder for later expansion
-    internal class AppConfig
+    public class AppConfig
     {
         public bool DebugInfo { get; set; }
+        public bool ClearLogs { get; set; }
+        public int MaxLogFileCount { get; set; }
         public bool SongDownloadInfo { get; set; }
         public AppVersion Appversion = AppVersion.Parse("0.0.2d");
-        public AppConfig(bool debug, bool downloadinfo, AppVersion version)
+        public AppConfig(bool debug, bool downloadinfo, AppVersion version, bool clearlogs, int maxfcount)
         {
             DebugInfo = false;
             SongDownloadInfo = false;

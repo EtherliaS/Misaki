@@ -27,7 +27,14 @@ namespace Misaki.Utilities.JsonService
 
             using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
             {
-                await JsonSerializer.SerializeAsync(fs, obj, options);
+                try
+                {
+                    await JsonSerializer.SerializeAsync(fs, obj, options);
+                }
+                catch (Exception ex)
+                {
+                    await Logger.Log("Json error: " + ex.Message, InfoSource.Misaki, InfoType.Error);
+                }
             }
         }
         public static async Task<T?> ReadJsonFileAsync<T>(string filepath)

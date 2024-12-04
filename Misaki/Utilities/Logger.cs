@@ -1,4 +1,5 @@
-﻿using Misaki.Resources;
+﻿using Misaki.App;
+using Misaki.Resources;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace Misaki.Utilities
     {
         Discord,
         Misaki,
-        Error,
         Python
     }
     enum InfoType
@@ -43,7 +43,24 @@ namespace Misaki.Utilities
                 await writer.WriteLineAsync(message);
             }
         }
-        public static async Task Log(string message, InfoSource source, InfoType infoType = InfoType.Info)
+        public static async Task CheckLogCount()
+        {
+            DirectoryInfo dirInfo = new(LocalVars.LogsPath);
+            if (!dirInfo.Exists) return;
+            if (dirInfo.GetFiles().Length > MisakiIdle._config.MaxLogFileCount)
+            {
+                if (MisakiIdle._config.ClearLogs)
+                {
+                    //delete logs
+                    //write about deleted logs
+                }
+                else
+                {
+                    await Log("The number of log files is higher than specified in the configuration", InfoSource.Misaki, InfoType.Warn);
+                }
+            }
+        }
+        public static async Task Log(string message, InfoSource source = InfoSource.Misaki, InfoType infoType = InfoType.Info)
         {
             if (NewLog)
             {
@@ -74,13 +91,6 @@ namespace Misaki.Utilities
                         sb.Append("Misaki");
                         break;
                     }
-                case InfoSource.Error:
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("Error");
-                        sb.Append("Error");
-                        break;
-                    }
                 case InfoSource.Python:
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -92,6 +102,7 @@ namespace Misaki.Utilities
             }
             Console.ForegroundColor= ConsoleColor.DarkGray;
             Console.Write('|');
+            sb.Append('|');
             switch (infoType)
             {
                 case InfoType.Info:
@@ -126,6 +137,7 @@ namespace Misaki.Utilities
             }
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write(") ");
+            sb.Append(") ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(message);
             sb.Append(message);

@@ -34,13 +34,13 @@ namespace Misaki.App
             {
                 try
                 {
-                    _appconfig = new AppConfig(false, true, new AppVersion(1, 0, 0, 'a')); // get version from server?
+                    _appconfig = new AppConfig(false, true, new AppVersion(1, 0, 0, 'a'), false, 20); // get version from server?
                     await JsonConverter.WriteJsonToFileAsync(_appconfig, LocalVars.AppConfigPath);
                 }
                 catch (Exception ex) // replicate on other files
                 {
                     await Logger.Log("Error creating appconfig", InfoSource.Misaki, InfoType.Error);
-                    await Logger.Log(ex.Message, InfoSource.Error, InfoType.Error);
+                    await Logger.Log(ex.Message, InfoSource.Misaki, InfoType.Error);
                 }
             }
             else _appconfig = await JsonConverter.ReadJsonFileAsync<AppConfig>(LocalVars.AppConfigPath);

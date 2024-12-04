@@ -19,7 +19,7 @@ namespace Misaki.Python
                 Shell.Execute([$"cd {LocalVars.PythonResourcesPath}", "python -m venv venv"], UseVenv: false, redirectoutput: debug);
                 await Logger.Log("Venv created!", InfoSource.Python);
             }
-            await Logger.Log("Checking libraries..,", InfoSource.Python);
+            await Logger.Log("Checking libraries...", InfoSource.Python);
             Shell.Execute([$"cd {LocalVars.PythonResourcesPath}", "pip install -r requirements.txt"], redirectoutput: debug);
             await Logger.Log("Python initialized successfully!", InfoSource.Python);
         }

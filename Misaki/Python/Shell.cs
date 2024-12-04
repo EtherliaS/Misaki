@@ -16,7 +16,7 @@ namespace Misaki.Python
         const string args = "";
         const string activateVenvWin = "call \"./PythonResources/venv/Scripts/activate\"";
         const string activateVenvLnx = "source ./PythonResources/venv/Scripts/activate";
-        public static string? Execute(string command, string args = "echo off", bool UseVenv = true, bool redirectoutput = true, bool redirectinput = true, bool redirecterror = true)
+        public static string? Execute(string command, string args = "@echo off", bool UseVenv = true, bool redirectoutput = true, bool redirectinput = true, bool redirecterror = true)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -82,7 +82,7 @@ namespace Misaki.Python
             var process = Process.Start(startInfo);
             if (process == null)
             {
-                Logger.Log("Could not start process: Shell process is null", InfoSource.Error);
+                Logger.Log("Could not start process: Shell process is null", infoType: InfoType.Error);
                 throw new Exception("Could not start process");
             }
 

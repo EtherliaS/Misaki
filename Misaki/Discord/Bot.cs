@@ -25,18 +25,26 @@ namespace Misaki.Discord
         }
         public async Task Start()
         {
-            DiscotdConfig = new DiscordSocketConfig { MessageCacheSize = 100 };
-            _client = new DiscordSocketClient(DiscotdConfig);
-            await _client.LoginAsync(TokenType.Bot, _config.token);
-            await _client.StartAsync();
-            _client.MessageUpdated += MessageUpdated;
-            _client.Ready += async () =>
+            try
             {
-                await Logger.Log("Bot is connected!", InfoSource.Discord);
-                return;
-            };
+                await Logger.Log("Connecting to discord severs...", InfoSource.Discord);
+                DiscotdConfig = new DiscordSocketConfig { MessageCacheSize = 100 };
+                _client = new DiscordSocketClient(DiscotdConfig);
+                await _client.LoginAsync(TokenType.Bot, _config.token);
+                await _client.StartAsync();
+                _client.MessageUpdated += MessageUpdated;
+                _client.Ready += async () =>
+                {
+                    await Logger.Log("Bot is connected!", InfoSource.Discord);
+                    return;
+                };
 
-            await Task.Delay(-1);
+                await Task.Delay(-1);
+            }
+            catch (Exception ex)
+            {
+                await Logger.Log("Failed with exception: " + ex.Message, InfoSource.Discord, InfoType.Error);
+            }
         }
         private async Task Log(LogMessage msg)
         {
